@@ -7,7 +7,7 @@ We evaluate the statistical power of spatial and topological null models for the
 ## Simplified LNM model
 The simplified LNM is based on a single functional connectivity matrix defined at a regional scale. There is no modeling of individuals. Each lesion maps to one and only one region. Depending on the lesion assignment type, multiple lesions can be mapped to the same region. This simplified LNM formulation is best viewed as an illustrative model and may differ from the properties of voxel‐resolution LNM applied across individuals.
 
-##Simulated functional connectivity matrix
+## Simulated functional connectivity matrix
 The matrix is generated using a degree-controlled stochastic block model (dcSBM). Connectivity weights are sampled from a beta distribution. The matrix is symmetric, undirected, fully connected and comprises *B* modules. Each module contains *M* nodes (regions) and the total number of nodes is thus *N=BM*. The node strength distribution is approximately log-normal.  
 
 ## Lesions sets and ground truth lesion network map
@@ -17,19 +17,21 @@ The ground truth lesion network map is always defined by a single module compris
 - As *alpha* increases, more lesions are concentrated in the ground truth LNM and statistical power thus increases.
 
 ## Null models 
-We evaluate a spatial and topological null model. The spatial null model is based on the null hypothesis that the observed lesion network map is consistent with an equal number of equally sized lesions distributed uniformly at random throughout the brain. The topological null hypothesis is that is the observed lesion network map is consistent with a functional network in which higher-order topological properties hypothesized to support disease-specific circuits have been removed. To generate samples from the topological null model, we draw networks from the same dcSBM used to generate the functional connectivity matrix, while explicitly excluding modular structure from the generative process. The null networks are matched in strength distribution to the simulated functional connectivity matrix. 
+We evaluate wpatial and topological null modelw. The spatial null model is based on the null hypothesis that the observed lesion network map is consistent with an equal number of equally sized lesions distributed uniformly at random throughout the brain. The topological null hypothesis is that the observed lesion network map is consistent with a functional network in which higher-order topological properties hypothesized to support disease-specific circuits are absent. To generate samples from the topological null model, we draw networks from the same dcSBM used to generate the functional connectivity matrix, while explicitly excluding modular structure from the generative process. The null networks are matched in strength distribution to the simulated functional connectivity matrix. 
 
 ## Statistical testing 
-The null distribution for both null models is constructed by identifying the node with the maximum value in the lesion network map and stroing this value. This is a conservative null distribution that ensures strong control of teh FWER under assumptions of exchangeability. Nodes in the observed lesion network map are deemed statistically significant if they exceed the 95th percentile of the null distribution, ensuring control of the FWER at 0.05. The number of permutations and samples in the null distribution is determined by *Perms*.  
+The null distribution for both null models is constructed by identifying the node with the maximum value in the lesion network map and storing this value. This is a conservative null distribution that ensures strong control of the FWER under assumptions of exchangeability. Nodes in the observed lesion network map are deemed statistically significant if they exceed the 95th percentile of the null distribution, ensuring control of the FWER at 0.05. The number of permutations and samples in the null distribution is determined by *Perms*.  
 
 ## Evaluation metrics
-- **Statistical power** is the proportion of trials for which one or more nodes are deemed signifciant in the observed lesion network in cases where *alpha>0*.
-- **Family-wise error rate (FEWR)** is the proportion of trials for which one or more nodes anywhere in the network are deemed signifciant when *alpha=0*.
-- **False positive rate (FPR)** is the proportion of trials for which one or more nodes residing in a module other than the ground-truth module are deemed signifciant.   
+We generate many lesions sets and corresponding lesion network maps for a given set of parameters (i.e. *N*, *alpha*, *K*, etc) and undertake the null hypothesis testing described above. Each such repeated iteration is referred to as a trial. The following measures are computed as the proportion of certain events across trials.  
 
+- **Statistical power** is the proportion of trials for which one or more nodes are deemed significant with the ground truth lesion network map when *alpha>0*.
+- **Family-wise error rate (FWER)** is the proportion of trials for which one or more nodes are deemed significant anywhere in network when *alpha=0*.
 
+## Matlab code
 
-The Matlab code provided here enables implementation of the simulations to generate components of the below figure. 
+The Matlab code provided here enables implementation of the simulations to generate components of the below figure.
+- dcSBM.m 
 
 <br><br>
 
