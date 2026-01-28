@@ -13,8 +13,8 @@ The matrix is generated using a degree-controlled stochastic block model (dcSBM)
 ## Lesions sets and ground-truth lesion network map
 The ground-truth lesion network map is always defined by a single module comprising the simulated functional connectivity matrix. Rather than conforming to a single predefined module at one scale, lesion network maps in practice may comprise more complex or multiscale topological organization. By restricting the ground‐truth lesion network map to a single module, the analysis focuses on only one possible topological pattern that LNM might detect. We consider a total of *K* lesions. A proportion *alpha* of these *K* lesions is necessarily assigned to nodes comprising the ground-truth module. The remaining lesions are uniformly distributed at random across all nodes, irrespective of modular allegiance. The parameter *alpha* determines the propotion of lesions in the lesion network map and we plot statistical power as a function of *alpha*. 
 
-- When *alpha=0*, all lesions are distributed uniformly and this case evaluate the specifcity (i.e. family-wise error rate, FWER) of the methodology.
-- As *alpha* increases, more lesions are concentrated in the ground truth LNM and statistical power thus increases.
+- When *alpha=0*, all lesions are distributed uniformly (null condition) and this case evaluates the specifcity (i.e. family-wise error rate, FWER) of the methodology.
+- As *alpha* increases above zero, more lesions are concentrated in the ground truth LNM and statistical power thus increases.
 
 ## Null models 
 We evaluate spatial and topological null models. The spatial null model is based on the null hypothesis that the observed lesion network map is consistent with an equal number of equally sized lesions distributed uniformly at random throughout the brain. The topological null hypothesis is that the observed lesion network map is consistent with a functional network in which higher-order topological properties hypothesized to support disease-specific circuits are absent. To generate samples from the topological null model, we draw networks from the same dcSBM used to generate the functional connectivity matrix, while explicitly excluding modular structure from the generative process. The null networks are matched in strength distribution to the simulated functional connectivity matrix. 
@@ -26,7 +26,7 @@ The null distribution for both null models is constructed by identifying the nod
 We generate many lesions sets and corresponding lesion network maps for a given set of parameters (i.e. *N*, *alpha*, *K*, etc) and undertake the null hypothesis testing described above. Each such repeated iteration is referred to as a trial. The following measures are computed as the proportion of certain events across trials.  
 
 - **Statistical power** is the proportion of trials for which one or more nodes are deemed significant within the ground-truth lesion network map when *alpha>0*.
-- **Family-wise error rate (FWER)** is the proportion of trials for which one or more nodes are deemed significant anywhere in network when *alpha=0*.
+- **Family-wise error rate (FWER)** is the proportion of trials for which one or more nodes are deemed significant anywhere in network when *alpha=0* (null condition).
 
 ## Matlab code
 
