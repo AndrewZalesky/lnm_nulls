@@ -27,7 +27,7 @@ We generate many lesions sets and corresponding lesion network maps for a given 
 
 - **Statistical power** is the proportion of trials for which one or more nodes are deemed significant within the ground-truth lesion network map when *alpha>0*.
 - **Family-wise error rate (FWER)** is the proportion of trials for which one or more nodes are deemed significant anywhere in network when *alpha=0* (null condition).
-- **Strong FWER** is the proportion of trials for which one or more noodes are deemed signifciant outside the ground-truth lestion network map when *alpha>0*.
+- **Strong FWER** is the proportion of trials for which one or more nodes are deemed signifciant outside the ground-truth lestion network map when *alpha>0*.
 
 ## Matlab code
 
@@ -40,6 +40,12 @@ The Matlab code provided here enables implementation of the simulations to gener
 - **show_progress.m** is a helper function.
 
 Note that the [cbrewer package](https://github.com/scottclowe/cbrewer2) is needed to generate some figures. 
+
+## Localized differences in the presence of global spatial correlation 
+
+An example is provided to demonstrate that localized differences can be present between two maps despite high spatial correlation between them (r>0.8). 
+
+- **test_corr.m** is a script to generate smoothed maps and introduce spatial correlation 
 
 <br><br>
 
