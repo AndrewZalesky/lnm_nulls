@@ -1,8 +1,8 @@
 # Permutation-based null models for lesion network mapping (LNM)
 
-Lesion network mapping (LNM) is a popular methodology to to identify brain circuits disrupted by spatially distributed lesions associated with the same symptom or clinical phenotype.
+[Lesion network mapping (LNM)](https://academic.oup.com/brain/article-abstract/138/10/3061/2468715) is a popular methodology to to identify brain circuits disrupted by spatially distributed lesions associated with the same symptom or clinical phenotype.
 
-We evaluate the statistical power of spatial and topological null models for the simplified LNM model proposed by van den Heuvel and colleagues (2026).
+We evaluate the statistical power of spatial and topological null models for the simplified LNM model proposed by [van den Heuvel and colleagues (2026)](https://www.nature.com/articles/s41593-025-02196-7).
 
 ## Simplified LNM model
 The simplified LNM is based on a single functional connectivity matrix defined at a regional scale. There is no modeling of individuals. Each lesion maps to one and only one region. Depending on the lesion assignment type, multiple lesions can be mapped to the same region. This simplified LNM formulation is best viewed as an illustrative model and may differ from the properties of voxel‐resolution LNM applied across individuals.
@@ -32,10 +32,10 @@ We generate many lesions sets and corresponding lesion network maps for a given 
 
 The Matlab code provided here enables implementation of the simulations to generate components of the below figure.
 - **main.m** is a script to evaluate all metrics as a function of *alpha*, *K* or a single parameter combination. The choice of null model, network parameters as well as the number of permutations and trials is specifcied in this script. 
-- **dcsbm.m** generates weighted, symmetric undirected networks with and without modular structure
+- **dcsbm.m** generates weighted, symmetric undirected networks with and without modular structure.
 - **lesion_assignment.m** maps lesions to nodes based on module allegiance. 
 - **lnm_compute.m** computes the lesion network map and contains the for-loop to generate samples to build the null distribution.
-- **precompute_topology_randomization.m** generates as set of functional connecitvity matrices under the null hypothesis. The same set of precomputed matrices are used for all trials to save computation time.
+- **precompute_topology_randomization.m** generates a set of functional connectivity matrices under the null hypothesis. The same set of precomputed matrices are used for all trials to save computation time.
 - **show_progress.m** is a helper function.
 
 Note that the [cbrewer package](https://github.com/scottclowe/cbrewer2) is needed to generate some figures. 
