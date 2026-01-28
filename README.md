@@ -31,7 +31,14 @@ We generate many lesions sets and corresponding lesion network maps for a given 
 ## Matlab code
 
 The Matlab code provided here enables implementation of the simulations to generate components of the below figure.
-- dcSBM.m 
+- **main.m** is a script to evaluate all metrics as a function of *alpha*, *K* or a single parameter combination. The choice of null model, network parameters as well as the number of permutations and trials is specifcied in this script. 
+- **dcsbm.m** generates weighted, symmetric undirected networks with and without modular structure
+- **lesion_assignment.m** maps lesions to nodes based on module allegiance. 
+- **lnm_compute.m** computes the lesion network map and contains the for-loop to generate samples to build the null distribution.
+- **precompute_topology_randomization.m** generates as set of functional connecitvity matrices under the null hypothesis. The same set of precomputed matrices are used for all trials to save computation time.
+- **show_progress.m** is a helper function.
+
+Note that the [cbrewer package](https://github.com/scottclowe/cbrewer2) is needed to generate some figures. 
 
 <br><br>
 
