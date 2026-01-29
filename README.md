@@ -15,7 +15,7 @@ The ground-truth lesion network map is always defined by a single module compris
 
 We consider a total of *K* lesions. A proportion *alpha* of these *K* lesions is necessarily assigned to nodes comprising the ground-truth module. The remaining lesions are uniformly distributed at random across all nodes, irrespective of modular allegiance. The parameter *alpha* determines the propotion of lesions in the lesion network map and we plot statistical power as a function of *alpha*. 
 
-- **Null condition.** When *alpha=0*, all lesions are distributed uniformly and this case evaluates the specifcity (i.e. family-wise error rate, FWER) of the methodology under the null hypothesis.
+- **Null condition.** When *alpha=0*, all lesions are distributed uniformly and this case evaluates the specifcity of the methodology under the null hypothesis (i.e. family-wise error rate, FWER).
 - **True effect.** As *alpha* increases above zero, more lesions are concentrated in the ground truth LNM and statistical power thus increases.
 
 ## Null models 
