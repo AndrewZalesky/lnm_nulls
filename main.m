@@ -72,7 +72,7 @@ LNM=struct('K',K,...
 Perms=5000; %number of permutations for null testing
 %Type of null model
 Null_Type='Location'; %randomise lesion locations
-Null_Type='Topology'; %randomise (re-generate) topology without modules
+%Null_Type='Topology'; %randomise (re-generate) topology without modules
 %Number of trials for averaging
 Trials=1000;  %set to 10000 for generating figures 
 
@@ -138,9 +138,10 @@ if strcmp(Mode,'test_alpha')
     fprintf('Evaluating as a function of alpha...\n'); 
     %Evaluate as a function of alpha
     alpha_rng=[0:0.05:1]; J=length(alpha_rng); 
-    %Rates of interest - see below fro description
-    tpr=zeros(J,1); 
-    fpr_module=zeros(J,1); 
+    %Rates of interest - see below for description
+    fwer=zeros(J,1); 
+    power=zeros(J,1); 
+    strong_fwer=zeros(J,1); 
     tpr_binomial=zeros(J,1);
     fpr_module_binomial=zeros(J,1);
     tpr_ttest=zeros(J,1); 
@@ -152,15 +153,9 @@ if strcmp(Mode,'test_alpha')
             s=sum(w)/N; %node strengths
             [lnm,ind_sig,mod,ind_sig_ttest,null_dist]=lnm_compute(alpha_val,K,N,M,m,z,Assignment_Type,Perms,w,B,Null_Type);
             %LNM
-            %Prob of detecting an effect in at least one node (power)
-            %When alpha=0, this is the false postive rate
-            tpr(i)=tpr(i)+any(ind_sig);
-            %Prob of 1 or more nodes detected outside the selected target module
-            %This tests whether effects outside the target module were
-            %identified. Some caution is needed when interpreting this
-            %metric since the network may potentially include high-order
-            %topological structures that link modules. 
-            fpr_module(i)=fpr_module(i)+any(ind_sig(z~=m));
+            fwer(i)=fwer(i)+any(ind_sig); %fwer but only when alpha=0 (null condition)
+            power(i)=power(i)+any(ind_sig(z==m)); %power when alpha>0
+            strong_fwer(i)=strong_fwer(i)+any(ind_sig(z~=m)); %strong fwer under the alternative hypothesis                                        
             %Binomial test
             %Prob of detecting an effect in at least one module  
             tpr_binomial(i)=tpr_binomial(i)+any(mod);
@@ -173,25 +168,26 @@ if strcmp(Mode,'test_alpha')
         end
         show_progress(i*2,J*2,frst); frst=1; 
     end
-    tpr=tpr/Trials; fpr_module=fpr_module/Trials; 
+    fwer=fwer/Trials; power=power/Trials; strong_fwer=strong_fwer/Trials;  
     tpr_binomial=tpr_binomial/Trials; fpr_module_binomial=fpr_module_binomial/Trials; 
     tpr_ttest=tpr_ttest/Trials; 
     %%
     %Figure: Evaluation of alpha
     hfA=figure; hfA.Position=[100,100,1000,400]; hfA.Color='w';
-    subplot(1,2,1); plot(alpha_rng,[tpr,tpr_binomial]); legend('LNM','Bino'); xlabel('alpha');
-    subplot(1,2,2); plot(alpha_rng,[fpr_module,fpr_module_binomial]); legend('LNM','Bino'); xlabel('alpha'); 
+    subplot(1,2,1); plot(alpha_rng,[power,fwer]); legend('Power','FWER'); xlabel('alpha');
+    subplot(1,2,2); plot(alpha_rng,strong_fwer); legend('FWER Strong'); xlabel('alpha'); 
     %%
     save(strcat(['alpha_data_',Null_Type,'_Kval',num2str(K),'.mat']),...
-                                                  'alpha_rng','tpr','tpr_binomial',...
-                                                  'fpr_module','fpr_module_binomial','tpr_ttest');
+                                                  'alpha_rng','fwer','power','strong_fwer','tpr_binomial',...
+                                                  'fpr_module_binomial','tpr_ttest');
 
 elseif strcmp(Mode,'test_K')
     fprintf('Evaluating as a function of K...\n'); 
     %Evaluate as a function of K
     K_rng=[1,10,20,50,100,120]; J=length(K_rng); 
-    tpr=zeros(J,1); 
-    fpr_module=zeros(J,1); 
+    fwer=zeros(J,1); 
+    power=zeros(J,1); 
+    strong_fwer=zeros(J,1); 
     tpr_binomial=zeros(J,1);
     fpr_module_binomial=zeros(J,1);
     tpr_ttest=zeros(J,1); 
@@ -202,27 +198,34 @@ elseif strcmp(Mode,'test_K')
             [w,z]=dcsbm(GM); 
             s=sum(w)/N; %node strengths
             [lnm,ind_sig,mod,ind_sig_ttest,null_dist]=lnm_compute(alpha,K_val,N,M,m,z,Assignment_Type,Perms,w,B,Null_Type);
-            tpr(i)=tpr(i)+any(ind_sig);
-            fpr_module(i)=fpr_module(i)+any(ind_sig(z~=m));  
+            fwer(i)=fwer(i)+any(ind_sig); %fwer but only when alpha=0 (null condition)
+            power(i)=power(i)+any(ind_sig(z==m)); %power when alpha>0
+            strong_fwer(i)=strong_fwer(i)+any(ind_sig(z~=m)); %strong fwer under the alternative hypothesis                                        
+            %Binomial test
+            %Prob of detecting an effect in at least one module  
             tpr_binomial(i)=tpr_binomial(i)+any(mod);
+            %Prob of one or more modules detected other than the selected
+            %target module
             fpr_module_binomial(i)=fpr_module_binomial(i)+any(mod([1:m-1,m+1:B])); 
-            tpr_ttest(i)=tpr_ttest(i)+any(ind_sig_ttest); 
+            %Note that resolution of inference is different between LNM and
+            %Binomial. Former is at nodes, latter is at modules. 
+            tpr_ttest(i)=tpr_ttest(i)+any(ind_sig_ttest);  
         end
         show_progress(2*i,2*J,frst); frst=1; 
     end
-    tpr=tpr/Trials; fpr_module=fpr_module/Trials; 
-    tpr_binomial=tpr_binomial/Trials; fpr_module_binomial=fpr_module_binomial/Trials;
-    tpr_ttest=tpr_ttest/Trials; 
+    fwer=fwer/Trials; power=power/Trials; strong_fwer=strong_fwer/Trials;  
+    tpr_binomial=tpr_binomial/Trials; fpr_module_binomial=fpr_module_binomial/Trials; 
+    tpr_ttest=tpr_ttest/Trials;
     %%
     %Figure: Evaluation of K
     hfA=figure; hfA.Position=[100,100,1000,400]; hfA.Color='w';
-    subplot(1,2,1); plot(K_rng,[tpr,tpr_binomial]); legend('LNM','Bino'); xlabel('Number of lesions');
-    subplot(1,2,2); plot(K_rng,[fpr_module,fpr_module_binomial]); legend('LNM','Bino');
+    subplot(1,2,1); plot(K_rng,[power,fwer]); legend('Power','FWER'); xlabel('Number of lesions');
+    subplot(1,2,2); plot(K_rng,strong_fwer); legend('Strong FWER');
                     xlabel('Number of lesions'); 
     %%
     save(strcat(['K_data_',Null_Type,'_Kval',num2str(K),'.mat']),...
-                                              'K_rng','tpr','tpr_binomial',...
-                                              'fpr_module','fpr_module_binomial','tpr_ttest'); 
+                                              'K_rng','fwer','power','strong_fwer','tpr_binomial',...
+                                              'fpr_module_binomial','tpr_ttest'); 
 
 elseif strcmp(Mode,'test_single_case')
     %Generate detailed figure for default parameters, specfied above 
