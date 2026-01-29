@@ -49,7 +49,7 @@ Note that the [cbrewer package](https://github.com/scottclowe/cbrewer2) is neede
 
 An example is provided to demonstrate that localized differences can be present between two maps despite high spatial correlation between them (r>0.8). We first generate two highly correlated maps on a circular domain with spatial autocorrelation. We then add a difference between the two maps at a region comprising 20% of the circular domain's area. We show that despite a striking difference, the two maps remain highly correlated. 
 
-- **test_corr.m** is a script that generates the maps, performs spatial correlation between and generates a figure.
+- **test_corr.m** is a script that generates the maps, performs spatial correlation between them and generates a figure.
 - **permutatation_null.m** generates a null distribution for the spatial correlation coeffcient by regenerating samples of the image with the same level of spatial autocorrelation but without any systematic correlation between the two maps. 
 
 Email: azalesky@unimelb.edu.au
