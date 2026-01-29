@@ -1,8 +1,8 @@
 # Permutation-based null models for lesion network mapping (LNM)
 
-[Lesion network mapping (LNM)](https://academic.oup.com/brain/article-abstract/138/10/3061/2468715) is a popular methodology to to identify brain circuits disrupted by spatially distributed lesions associated with the same symptom or clinical phenotype.
+[Lesion network mapping (LNM)](https://pubmed.ncbi.nlm.nih.gov/26264514/) is a popular methodology to to identify brain circuits disrupted by spatially distributed lesions associated with the same symptom or clinical phenotype.
 
-We evaluate the statistical power of spatial and topological null models for the simplified LNM model proposed by [van den Heuvel and colleagues (2026)](https://www.nature.com/articles/s41593-025-02196-7).
+We evaluate the statistical power of spatial and topological null models for the simplified LNM model proposed by [van den Heuvel and colleagues (2026)](https://www.nature.com/articles/s41593-025-02196-7) and publicized [here](https://www.thetransmitter.org/brain-imaging/methodological-flaw-may-upend-network-mapping-tool/) and [here](https://www.science.org/content/article/flaw-brain-mapping-technique-may-undercut-neuroscience-findings).
 
 ## Simplified LNM model
 The simplified LNM is based on a single functional connectivity matrix defined at a regional scale. There is no modeling of individuals. Each lesion maps to one and only one region. Depending on the lesion assignment type, multiple lesions can be mapped to the same region. This simplified LNM formulation is best viewed as an illustrative model and may differ from the properties of voxel‐resolution LNM applied across individuals.
@@ -22,7 +22,7 @@ We consider a total of *K* lesions. A proportion *alpha* of these *K* lesions is
 We evaluate spatial and topological null models. The spatial null model is based on the null hypothesis that the observed lesion network map is consistent with an equal number of equally sized lesions distributed uniformly at random throughout the brain. The topological null hypothesis is that the observed lesion network map is consistent with a functional network in which higher-order topological properties hypothesized to support disease-specific circuits are absent. To generate samples from the topological null model, we draw networks from the same dcSBM used to generate the functional connectivity matrix, while explicitly excluding modular structure from the generative process. The null networks are matched in strength distribution to the simulated functional connectivity matrix. 
 
 ## Statistical testing 
-The null distribution for both null models is constructed by identifying the node with the maximum value in the lesion network map and storing this value. This is a conservative null distribution that ensures strong control of the FWER under assumptions of exchangeability. Nodes in the observed lesion network map are deemed statistically significant if they exceed the 95th percentile of the null distribution, ensuring control of the FWER at 0.05. The number of permutations and samples in the null distribution is determined by *Perms*.  
+The null distribution for both null models is constructed by identifying the node with the maximum value in the lesion network map and storing this value. This is a conservative null distribution that ensures strong control of the FWER under assumptions of exchangeability. Nodes in the observed lesion network map are deemed statistically significant if they exceed the 95th percentile of the null distribution, ensuring control of the FWER at 0.05. See [Nichols and Holmes (2002)](https://pubmed.ncbi.nlm.nih.gov/11747097/). The number of permutations and samples in the null distribution is determined by *Perms*.  
 
 ## Evaluation metrics
 We generate many lesions sets and corresponding lesion network maps for a given set of parameters (i.e. *N*, *alpha*, *K*, etc) and undertake the null hypothesis testing described above for each iteration. Each such repeated iteration is referred to as a trial. The following measures are computed as the proportion of certain events across trials.  
@@ -45,9 +45,12 @@ Note that the [cbrewer package](https://github.com/scottclowe/cbrewer2) is neede
 
 ## Localized differences in the presence of global spatial correlation 
 
-An example is provided to demonstrate that localized differences can be present between two maps despite high spatial correlation between them (r>0.8). 
+An example is provided to demonstrate that localized differences can be present between two maps despite high spatial correlation between them (r>0.8). We first generate two highly correlated maps on a circular domain with spatial autocorrelation. We then add a difference between the two maps at a region comprising 20% of the circular domain's area. We show that despite a striking difference, the two maps remain highly correlated. 
 
-- **test_corr.m** is a script to generate smoothed maps and introduce spatial correlation 
+- **test_corr.m** is a script that generates the maps, performs spatial correlation between and generates a figure.
+- **permutatation_null.m** generates a null distribution for the spatial correlation coeffcient by regenerating samples of the image with the same level of spatial autocorrelation but without any systematic correlation between the two maps. 
+
+Email: azalesky@unimelb.edu.au
 
 <br><br>
 
