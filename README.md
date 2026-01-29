@@ -25,7 +25,7 @@ We evaluate spatial and topological null models. The spatial null model is based
 The null distribution for both null models is constructed by identifying the node with the maximum value in the lesion network map and storing this value. This is a conservative null distribution that ensures strong control of the FWER under assumptions of exchangeability. Nodes in the observed lesion network map are deemed statistically significant if they exceed the 95th percentile of the null distribution, ensuring control of the FWER at 0.05. The number of permutations and samples in the null distribution is determined by *Perms*.  
 
 ## Evaluation metrics
-We generate many lesions sets and corresponding lesion network maps for a given set of parameters (i.e. *N*, *alpha*, *K*, etc) and undertake the null hypothesis testing described above. Each such repeated iteration is referred to as a trial. The following measures are computed as the proportion of certain events across trials.  
+We generate many lesions sets and corresponding lesion network maps for a given set of parameters (i.e. *N*, *alpha*, *K*, etc) and undertake the null hypothesis testing described above for each iteration. Each such repeated iteration is referred to as a trial. The following measures are computed as the proportion of certain events across trials.  
 
 - **Statistical power** is the proportion of trials for which one or more nodes are deemed significant within the ground-truth lesion network map when *alpha>0*.
 - **Family-wise error rate (FWER)** is the proportion of trials for which one or more nodes are deemed significant anywhere in network when *alpha=0* (null condition).
