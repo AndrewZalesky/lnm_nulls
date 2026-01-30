@@ -56,5 +56,6 @@ Email: azalesky@unimelb.edu.au
 
 <br><br>
 
+![Figure description](figure.jpg)
 
 
