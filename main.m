@@ -57,12 +57,14 @@ K=100;      %number of lesions
 alpha=0.8;  %proportion of lesions residing within selected module
             %remianing lesions distributed uniformly across other modules
             %this is an effect size
-m=5;        %select a module (arbitrary)
+m=5;        %select a module (arbitrary and without loss of generality)
 %Assignment of lesions to regions
 %1 or 2
 %1: region/voxel assigned at most one lesion
 %2: region/voxel can be assigned multiple lesions
-Assignment_Type=2;
+%3: same as 2, but null model approximately preserves node strength when
+    %reassigning lesions under the spatial null
+Assignment_Type=3;
 LNM=struct('K',K,...
            'alpha',alpha,...
            'm',m,...,
@@ -74,7 +76,7 @@ Perms=5000; %number of permutations for null testing
 Null_Type='Location'; %randomise lesion locations
 %Null_Type='Topology'; %randomise (re-generate) topology without modules
 %Number of trials for averaging
-Trials=1000;  %set to 10000 for generating figures 
+Trials=1000;  %set to 5000 for generating figures 
 
 %Generate NxN symmetric functional connectivity matrix
 %Nodes could represent voxels or regions 

@@ -20,17 +20,32 @@ function [lnm,ind_sig,mod,ind_sig_ttest,null_dist]=lnm_compute(alpha,K,N,M,m,z,A
 global w_null_topology
 
 %Assign lesions
-ind_lesion=lesion_assignment(alpha,K,N,M,m,z,Assignment_Type); 
+if Assignment_Type==2 || Assignment_Type==3
+    %For observed data, types 2 and 3, both allow overlap in lesions 
+    ind_lesion=lesion_assignment(alpha,K,N,M,m,z,2,[],[],[]); %Assignment type here must 
+%                                                                     be either 1 or 2, never 3
+elseif Assignment_Type==1
+    ind_lesion=lesion_assignment(alpha,K,N,M,m,z,1,[],[],[]); 
+end
 %Compute LNM
 lnm=ind_lesion'*w/K; 
 
 s=sum(w)/N; %node strengths
 
+%Neighbors for strength preservation
+U=0.2; %top 20% of nodes matched in strength
+un=ceil(U*(N-1));
+neighbors = zeros(N, un);
+for i = 1:N
+    [~, ind_srt] = sort(abs(s(i) - s));
+    neighbors(i,:) = ind_srt(2:un+1);
+end
+
 if strcmp(Null_Type,'Location')
     %Null model - lesion location randomization
     null_dist=zeros(Perms,1);
     for i=1:Perms
-        ind_lesion_null=lesion_assignment(0,K,N,M,m,z,Assignment_Type);
+        ind_lesion_null=lesion_assignment(0,K,N,M,m,z,Assignment_Type,neighbors,ind_lesion,un);
         lnm_null=ind_lesion_null'*w/K;
         null_dist(i)=max(lnm_null); %max statistic, provides FWER correction
     end
