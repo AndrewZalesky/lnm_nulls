@@ -48,7 +48,7 @@ Note that the [cbrewer package](https://github.com/scottclowe/cbrewer2) is neede
 ## Assignment of lesions to regions 
 The variable *Assignment_Type* determines how lesions are assigned to regions for the observed lesion set and under the null conditions. Three options are available: 
 - 1: A region is assigned at most one lesion in both the observed lesion set and under the null.
-- 2: A regions can be assigned multiple lesions in both the observed lesion set and under null. 
+- 2: A regions can be assigned multiple lesions in both the observed lesion set and under the null. 
 - 3: Same as 2, but under the null condition, lesions are randomized to approximately match node strength in the observed lesion set. Note that this option is only relevant for the topological null model. For each lesion, a set of *U* candidate nodes that are closest in strength to the actual lesion node are defined and the lesion node is repositioned to a randomly selected candidate node. When *U* is small, strength matching is accurate but the diversity of randomizations is constrained.
 
 ## Matching node strength
