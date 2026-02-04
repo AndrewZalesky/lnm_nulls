@@ -2,12 +2,12 @@
 
 [Lesion network mapping (LNM)](https://pubmed.ncbi.nlm.nih.gov/26264514/) is a popular methodology to to identify brain circuits disrupted by spatially distributed lesions associated with the same symptom or clinical phenotype.
 
-We evaluate the statistical power of spatial and topological null models for the simplified LNM model proposed by [van den Heuvel and colleagues (2026)](https://www.nature.com/articles/s41593-025-02196-7). The authors used the simplified model to support their argument that most lesion network maps reflect generic hub structure in the connectome rather than disease-specific circuits, raising important questions about the method's specificity and generating debate in the LNM field, as summarized [here](https://www.thetransmitter.org/brain-imaging/methodological-flaw-may-upend-network-mapping-tool/) and [here](https://www.science.org/content/article/flaw-brain-mapping-technique-may-undercut-neuroscience-findings).
+We evaluate the statistical power of spatial and topological null models for the compact LNM model proposed by [van den Heuvel and colleagues (2026)](https://www.nature.com/articles/s41593-025-02196-7). The authors used the compact model to support their argument that most lesion network maps reflect generic hub structure in the connectome rather than disease-specific circuits, raising important questions about the method's specificity and generating debate in the LNM field, as summarized [here](https://www.thetransmitter.org/brain-imaging/methodological-flaw-may-upend-network-mapping-tool/) and [here](https://www.science.org/content/article/flaw-brain-mapping-technique-may-undercut-neuroscience-findings).
 
 The simulations presented here are intended as a constructive response to the concerns raised by the authors, using permutation-based null models. We note that these simulations rely on the simplified LNM framework proposed by the authors and on synthetic lesion data. Accordingly, the extent to which these findings generalize to LNM analyses of clinical lesion datasets remains to be established.
 
-## Simplified LNM model
-The simplified LNM is based on a single functional connectivity matrix defined at a regional scale. There is no modeling of individuals. Each lesion maps to one and only one region. Depending on the lesion assignment type, multiple lesions can be mapped to the same region. This simplified LNM formulation is best viewed as an illustrative model and may differ from the properties of voxel‐resolution LNM applied across individuals.
+## Compact LNM model
+The compact LNM is based on a single functional connectivity matrix defined at a regional scale. There is no modeling of individuals. Each lesion maps to one and only one region. Depending on the lesion assignment type, multiple lesions can be mapped to the same region. This simplified LNM formulation is best viewed as an illustrative model and may differ from the properties of voxel‐resolution LNM applied across individuals.
 
 ## Simulated functional connectivity matrix
 The matrix is generated using a degree-controlled stochastic block model (dcSBM). Connectivity weights are sampled from a beta distribution. The matrix is symmetric, undirected, fully connected and comprises *B* modules. Each module contains *M* nodes (regions) and the total number of nodes is thus *N=BM*. The node strength distribution is approximately log-normal.  
@@ -48,14 +48,8 @@ Note that the [cbrewer package](https://github.com/scottclowe/cbrewer2) is neede
 ## Assignment of lesions to regions 
 The variable *Assignment_Type* determines how lesions are assigned to regions for the observed lesion set and under the null conditions. Three options are available: 
 - 1: A region is assigned at most one lesion in both the observed lesion set and under the null.
-- 2: A regions can be assigned multiple lesions in both the observed lesion set and under the null. 
-- 3: Same as 2, but under the null condition, lesions are randomized to approximately match node strength in the observed lesion set. Note that this option is only relevant for the topological null model. For each lesion, a set of *U* candidate nodes that are closest in strength to the actual lesion node are defined and the lesion node is repositioned to a randomly selected candidate node. When *U* is small, strength matching is accurate but the diversity of randomizations is constrained.
-
-## Matching node strength
-The spatial null under *Assignment_Type=3* ensures that each lesion is randomized to a location with approximately the same node strength. The topological null prserves node strength distribution, but not the node strength sequence. 
-
-## Extensions to voxel-wise clinical data
-Extending the spatial and topological null models to voxel-wise clinical data will require further development
+- 2: A region can be assigned multiple lesions in both the observed lesion set and under the null. 
+- 3: Same as 2, but under the null condition, lesions are randomized to approximately match node strength in the observed lesion set. Note that this option is only relevant for the spatial null model. For each lesion, a set of *U* candidate nodes that are closest in strength to the actual lesion node are defined and the lesion node is repositioned to a randomly selected candidate node. When *U* is small, strength matching is accurate but the diversity of randomizations is constrained.
 
 # Localized differences in the presence of global spatial correlation 
 
