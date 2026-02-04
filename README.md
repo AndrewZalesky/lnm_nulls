@@ -45,7 +45,19 @@ The Matlab code provided here enables implementation of the simulations to gener
 
 Note that the [cbrewer package](https://github.com/scottclowe/cbrewer2) is needed to generate some figures. 
 
-## Localized differences in the presence of global spatial correlation 
+## Assignment of lesions to regions 
+The variable *Assignment_Type* determines how lesions are assigned to regions for the observed lesion set and under the null conditions. The options are available: 
+- 1: A region is assigned at most one lesion in both observed lesion set and under the null.
+- 2: A regions can be assigned multiple lesions in both the observed lesion set and under null. 
+- 3: Same as 2, but under the null condition, lesions are randomized to approximately match node strength in the observed lesion set. Note that this option is only relevant for the topological null model. For each lesion, a set of *U* candidate nodes that are closest in strength to the actual lesion node are defined and the lesion node is repositioned to a randomly selected candidate node. When *U* is small, strength matching is accurate but the diversity of randomizations is constrained.
+
+## Matching node strength
+The spatial null under *Assignment_Type=3* ensures that each lesion is randomized to a location with approximately the same node strength. The topological null prserves node strength distribution, but not the node strength sequence. 
+
+## Extensions to voxel-wise clinical data
+Extending the spatial and topological null models to voxel-wise clinical data will require further development
+
+# Localized differences in the presence of global spatial correlation 
 
 An example is provided to demonstrate that localized differences can be present between two maps despite high spatial correlation between them (r>0.8). We first generate two highly correlated maps on a circular domain with spatial autocorrelation. We then add a difference between the two maps at a region comprising 20% of the circular domain's area. We show that despite a striking difference, the two maps remain highly correlated. 
 
