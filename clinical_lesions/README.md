@@ -6,7 +6,7 @@ Our spatial null model approximately preserves regional strength (i.e., node deg
 
 - *main.m* is a script that implements both the compact LNM formulation as well as permutation testing
 - *compute_lnm.m* computes the lesion network map
-- *compute_null* compute null computes one sample from the null distribution
+- *compute_null.m* compute null computes one sample from the null distribution
 - All other functions are helpers. 
 
 Note that the functional connectivity matrix is first corrected for the known relationship between functional connectivity and distance using regression. 
