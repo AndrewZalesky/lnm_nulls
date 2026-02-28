@@ -5,7 +5,7 @@ Here we apply our spatial null model to the clinical lesions sets [made availabl
 Our spatial null model approximately preserves regional strength (i.e., node degree) when randomizing lesion loci. 
 
 - *main.m* is a script that implements both the compact LNM formulation as well as permutation testing
-- *compute_lnm.m" computes the lesion network map
+- *compute_lnm.m* computes the lesion network map
 - *compute_null* compute null computes one sample from the null distribution
 - All other functions are helpers. 
 
