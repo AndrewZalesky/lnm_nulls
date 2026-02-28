@@ -51,7 +51,7 @@ The variable *Assignment_Type* determines how lesions are assigned to regions fo
 - 2: A region can be assigned multiple lesions in both the observed lesion set and under the null. 
 - 3: Same as 2, but under the null condition, lesions are randomized to approximately match node strength in the observed lesion set. Note that this option is only relevant for the spatial null model. For each lesion, a set of *U* candidate nodes that are closest in strength to the actual lesion node are defined and the lesion node is repositioned to a randomly selected candidate node. When *U* is small, strength matching is accurate but the diversity of randomizations is constrained.
 
-#Clinical lesion maps
+# Clinical lesion maps
 We also apply our permutation-based spatial null model to the lesions sets made available by van den Heuvel et al. See the folder *./clinical_lesions/*
 
 # Localized differences in the presence of global spatial correlation 
